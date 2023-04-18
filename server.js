@@ -8,12 +8,12 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 //own routes import
-const users = require("./models/Users")
+const users = require("./routes/users")
 
 
 //constants
 const app = express();
-const port = process.env.PORT || 5050;
+const port = process.env.PORT || 5850;
 const mongodbURI = process.env.MONGODB_URI;
 
 //cors middleware
@@ -27,8 +27,24 @@ app.use(
     );
     app.use(bodyParser.json()); 
 
-    //api routes
-    app.use("api/users", users)
+    // //api routes
+    // app.use("api/users", users)
+
+    // API endpoint handler
+app.get('/api/users', async (req, res) => {
+  try {
+    // Perform some asynchronous operation here
+    const result = [{
+      id:'test',
+      name:'test',
+    }];
+
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
     //localhost: 5000/api/Users/signup
       //localhost: 5000/api/admin/signup
@@ -50,8 +66,8 @@ const server = app.listen(port,()=>{
     })
 
     // Database configuration
-console.log(process.env.MONGOOSE_URI);
+console.log(process.env.MONGOOSE_URI,'hello world');
 mongoose.
-connect(mongodbURI)
+connect("mongodb://localhost:27017/chat-app")
 .then(() => console.log("MongoDB Successfully Connected"))
 .catch(err => console.log(err));
